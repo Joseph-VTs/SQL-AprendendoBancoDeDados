@@ -1,0 +1,11 @@
+database.php
+.env
+.sql
+
+node_modules
+vendor
+*.log
+*.tmp
+*.cache
+
+vscode/
