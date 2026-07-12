@@ -1,0 +1,16 @@
+# Bloqueia acesso direto a arquivos sensíveis
+<FilesMatch "\.(env|log|md|sql)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Configuração de roteamento para o index.php
+RewriteEngine On
+RewriteBase /Funcionais%20em%20PHP/SQL-default_city/Projeto_v1.0.6/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Proteções extras
+php_flag display_errors off
+php_flag log_errors on
