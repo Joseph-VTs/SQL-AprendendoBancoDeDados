@@ -1,29 +1,45 @@
 import os
 
-Pasta_Projeto = "Projeto_v1.0.6"
+root = "Projeto_v1.0.6"
 
-# Definir estrutura de Pastas e Arquivos
-Estrutura = {
-    "Assets/css" : ["style.css"],
-    "Layouts" : ["Header.php", "Footer.php"],
-    "Models" : ["Sakila-Model.php"],
-    "" : [".env", ".gitignore", "database.php", "Crud.php", "Lixeira.php", "Start-Tables.php"]
+# Estrutura: { Pasta: [Arquivos] }
+folders = {
+    "assets/css": ["style_default.css"],
+    "assets/js": ["cart.js", "script_default.js"],
+    "assets/imgs": [], # Pasta vazia para imagens
+    "config": ["Connection.php", "routes.php"],
+    "controllers": ["AuthController.php", "ProductController.php", "CompanyController.php"],
+    "models": ["Crud.php", "ProductModel.php", "SakilaModel.php"],
+    "views/layouts": ["header.php", "header-public.php", "footer.php"],
+    "views/admin": ["cadastrar-empresa.php"],
+    "views/company": ["dashboard.php", "lixeira.php"],
+    "views/catalog": ["index.php", "carrinho.php"],
+    "views/sakila": ["tabelas-sakila.php", "formulario.php"],
+    "views": ["login.php"],
+    "docs": ["sobre_mim.md", "como_navegar.md", "apresentacao_do_projeto.md", "estrutura_de_pastas.md"],
+    "storage/logs": ["acesso.log"]
 }
 
-os.makedirs(Pasta_Projeto, exist_ok=True)
+os.makedirs(root, exist_ok=True)
 
-for Pasta, Arquivos in Estrutura.items():
-    if Pasta:
-        Caminho_Pasta = os.path.join(Pasta_Projeto, Pasta)
-        os.makedirs(Caminho_Pasta, exist_ok=True)
-        Alvo = Caminho_Pasta
-    else:
-        Alvo = Pasta_Projeto
-        
-    for Arquivo in Arquivos:
-        Caminho_Completo = os.path.join(Alvo, Arquivo)
-        if not os.path.exists(Caminho_Completo):
-            with open(Caminho_Completo, "w", encoding="utf=8") as f:
+# 1. Criar pastas e arquivos dentro das pastas (com proteção)
+for folder, files in folders.items():
+    path = os.path.join(root, folder)
+    os.makedirs(path, exist_ok=True)
+    for file in files:
+        file_path = os.path.join(path, file)
+        if not os.path.exists(file_path):
+            with open(file_path, "w", encoding="utf-8") as f:
                 pass
-            
-print(f"Sucesso! Tudo foi criado rigorosamente dentro de '{Pasta_Projeto}'.")
+
+# 2. Criar arquivos na raiz COM VALIDAÇÃO (Não sobrescreve se existir)
+root_files = [".env", ".gitignore", ".htaccess", "config.php", "index.php"]
+for file in root_files:
+    file_path = os.path.join(root, file)
+    if not os.path.exists(file_path):
+        with open(file_path, "w", encoding="utf-8") as f:
+            pass
+    else:
+        print(f"Aviso: O arquivo '{file}' já existe e foi preservado.")
+
+print(f"Estrutura '{root}' verificada/criada com sucesso!")
