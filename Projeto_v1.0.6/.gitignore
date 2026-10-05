@@ -1,4 +1,0 @@
-/storage/logs/*.log
-.env
-.DS_Store
-vendor/
